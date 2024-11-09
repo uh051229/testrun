@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>SP_Games</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="./css/welcome.css" rel="stylesheet" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+</head>
+
+<script>
+  $(document).ready(function () {
+    var persistent = localStorage.getItem('StayLoggedIn');
+
+    // Have to do if statement to check localstorage or session storage
+    var authToken;
+    var userData;
+    if (persistent == "true") {
+      authToken = localStorage.getItem("token");
+      userData = JSON.parse(localStorage.getItem("user")); // Parse the JSON string back to an object    
+    } else {
+      authToken = sessionStorage.getItem("token");
+      userData = JSON.parse(sessionStorage.getItem("user"));
+    }
+
+    var addGameOption = document.getElementById("add-link");
+    var addPlatOption = document.getElementById("addPlat-link");
+    if (authToken) {
+      if (userData && userData.username) {
+        document.getElementById("user-login").innerText = userData.username;
+      }            
+        
+      if (userData.type != "Admin") {
+        addGameOption.style.display = "none";
+        addPlatOption.style.display = "none";
+      }
+
+    } else {
+      addGameOption.style.display = "none";
+      addPlatOption.style.display = "none";
+      document.getElementById("profile-link").style.display = "none";
+      document.getElementById("logout-link").style.display = "none";
+    }
+
+    $("#user-login").click(function () {
+      if (authToken) {
+        document.getElementById("user-login").setAttribute('href', "profile.html");
+      } else {
+        document.getElementById("user-login").setAttribute('href', "login.html");
+      }
+    });
+
+    $("#logout-link").click(function () {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("user");
+    });
+
+  });
+</script>
+
+<body style="background-color: black;">
+  <nav class="navbar">
+    <div class="firstlink" onclick="toggleMenu()"><a class="link1">
+        <img class="anonymous" src="/image/login_avatar.png" height="20px" width="20px">PROFILE</a></div>
+    <a class="welcome" href="welcome.html"><img class="backtowelcome" src="/image/pure_logo.png" height="60px"
+        width="60px"></a>
+    <a class="home" href="home.html"><strong>HOME</strong></a>
+    <a class="about" href="about.html"><strong>ABOUT</strong></a>
+
+    <div class="sub-menu-wrap" id="subMenu">
+      <div class="sub-menu">
+        <div class="user-info">
+          <img src="image/login_avatar.png"><a href="#" id="user-login" class="login"
+            style="font-size: 22px;"><strong>Log in</strong></a>
+        </div>
+        <hr>
+        <a class="sub-menu-link" id="profile-link" href="profile.html">
+          <img src="/image/profile.png">
+          <p>Edit Profile</p>
+          <span>></span>
+        </a>
+        <!-- <a href="#" class="sub-menu-link">
+                  <img src="/image/setting.png">
+                  <p>Settings & Privacy</p>
+                  <span>></span>
+              </a> -->
+        <a href="addGame.html" class="sub-menu-link" id="add-link">
+          <img src="/image/addGame.png">
+          <p>Add Game</p>
+          <span>></span>
+        </a>
+        <a href="addPlatform.html" class="sub-menu-link" id="addPlat-link">
+          <img src="/image/addPlatform.png">
+          <p>Add Platform</p>
+          <span>></span>
+        </a>
+        <a href="login.html" class="sub-menu-link" id="logout-link">
+          <img src="/image/logout.png">
+          <p>Logout</p>
+          <span>></span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ======= Lion Section ======= -->
+  <section id="lion">
+    <div class="lion-container">
+      <img src="../image/logo_dark.png" alt="" height="400px" width="400px">
+      <h1>Welcome To SP Studios</h1>
+      <h2>A game studio dedicated to our students</h2>
+      <a href="/home.html" class="btn-get-started scrollto">Get Started</a>
+    </div>
+  </section><!-- End Lion -->
+
+  <footer class="the_footer">
+    <a href="https://www.instagram.com/uh_05_lol/"><i class="bi bi-instagram"
+        style="font-size: 30px; color: white;"></i></a>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="https://twitter.com/UN_hhaanngg"><i class="bi bi-twitter" style="font-size: 30px; color: white;"></i></a>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="https://www.facebook.com/profile.php?id=100075455972330"><i class="bi bi-facebook"
+        style="font-size: 30px; color: white;"></i></a>
+    <br><br><span><strong>&copy;2023 SP_Games</strong></span>
+  </footer>
+
+  <script>
+    let subMenu = document.getElementById("subMenu");
+
+    function toggleMenu() {
+      subMenu.classList.toggle("open-menu")
+    }
+  </script>
+</body>
+
+</html>
